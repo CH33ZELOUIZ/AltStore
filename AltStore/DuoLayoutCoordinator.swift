@@ -11,7 +11,6 @@ import UIKit
 final class DuoLayoutCoordinator
 {
     private weak var viewController: UIViewController?
-    private var hingeInteraction: UIHingeInteraction?
     private let divisionGuide = UIView()
 
     init(viewController: UIViewController)
@@ -29,16 +28,12 @@ final class DuoLayoutCoordinator
         self.divisionGuide.translatesAutoresizingMaskIntoConstraints = true
         view.addSubview(self.divisionGuide)
 
-        self.hingeInteraction = UIHingeInteraction { [weak self] _, _ in
+        let hingeInteraction = UIHingeInteraction { [weak self] _, _ in
             DispatchQueue.main.async {
                 self?.updateLayout()
             }
         }
-
-        if let hingeInteraction = self.hingeInteraction
-        {
-            view.addInteraction(hingeInteraction)
-        }
+        view.addInteraction(hingeInteraction)
 
         self.updateLayout()
     }
@@ -49,7 +44,7 @@ final class DuoLayoutCoordinator
 
         // UIKit already adapts the tab/navigation controllers to the view's current
         // geometry. Reserve the physical division visibly and never treat it as content.
-        let divisionRegions = view.reservedRegions(ofKind: .divisionRegionKind)
+        let divisionRegions = view.reservedRegions(kind: .divisionRegionKind)
         guard let division = divisionRegions.first(where: { $0.active && !$0.frame.isEmpty }) else
         {
             self.divisionGuide.alpha = 0.0
