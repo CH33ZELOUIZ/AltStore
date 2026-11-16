@@ -44,7 +44,7 @@ final class DuoLayoutCoordinator
 
         // UIKit already adapts the tab/navigation controllers to the view's current
         // geometry. Reserve the physical division visibly and never treat it as content.
-        let divisionRegions = view.reservedRegions(kind: .divisionRegionKind)
+        let divisionRegions = view.reservedRegions(kind: .division)
         guard let division = divisionRegions.first(where: { $0.active && !$0.frame.isEmpty }) else
         {
             self.divisionGuide.alpha = 0.0
