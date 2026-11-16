@@ -26,11 +26,14 @@ jobs:
           grep -R -q 'UIHingeInteraction' "$SDK/System/Library/Frameworks/UIKit.framework/Headers"
           grep -R -q 'UIViewReservedRegion' "$SDK/System/Library/Frameworks/UIKit.framework/Headers"
 
+      - name: Resolve Swift packages
+        run: xcodebuild -resolvePackageDependencies -workspace AltStore.xcworkspace -scheme AltStore
+
       - name: Archive unsigned IPA payload
         run: |
           set -o pipefail
           xcodebuild \
-            -project AltStore.xcodeproj \
+            -workspace AltStore.xcworkspace \
             -scheme AltStore \
             -configuration Release \
             -sdk iphoneos \
