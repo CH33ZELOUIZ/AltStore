@@ -68,7 +68,9 @@ jobs:
           /usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$APP/Info.plist"
           /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist"
           BIN="$APP/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Info.plist")"
-          strings "$BIN" | grep -q 'UIHingeInteraction'
+          # Do not use grep -q here: it closes stdout early and makes Xcode 27's
+          # strings utility report a false failure while flushing its output.
+          strings "$BIN" | grep -F 'UIHingeInteraction'
           unzip -t artifacts/AltStore-Duo-unsigned.ipa
           shasum -a 256 artifacts/AltStore-Duo-unsigned.ipa
 
