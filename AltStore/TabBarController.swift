@@ -26,6 +26,7 @@ extension TabBarController
 class TabBarController: UITabBarController
 {
     private var initialSegue: (identifier: String, sender: Any?)?
+    private var duoLayoutCoordinator: DuoLayoutCoordinator?
     
     private var _viewDidAppear = false
     
@@ -47,6 +48,9 @@ class TabBarController: UITabBarController
     override func viewDidLoad() 
     {
         super.viewDidLoad()
+        
+        self.duoLayoutCoordinator = DuoLayoutCoordinator(viewController: self)
+        self.duoLayoutCoordinator?.start()
         
         let browseNavigationController = self.viewControllers![Tab.browse.rawValue] as! UINavigationController
         browseNavigationController.tabBarItem.image = UIImage(systemName: "bag")

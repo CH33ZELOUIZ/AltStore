@@ -1,0 +1,75 @@
+name: Build AltStore Duo IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [duo-optimized]
+    paths-ignore: ['altstore/**', '**.md']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: xcode-27
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Verify Xcode 27 / Duo SDK APIs
+        run: |
+          set -o pipefail
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          grep -R -q 'UIHingeInteraction' "$SDK/System/Library/Frameworks/UIKit.framework/Headers"
+          grep -R -q 'UIViewReservedRegion' "$SDK/System/Library/Frameworks/UIKit.framework/Headers"
+
+      - name: Archive unsigned IPA payload
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project AltStore.xcodeproj \
+            -scheme AltStore \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/AltStoreDuo.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY= \
+            DEVELOPMENT_TEAM= \
+            PROVISIONING_PROFILE_SPECIFIER= \
+            archive | tee xcodebuild.log
+
+          APP="$(find "$RUNNER_TEMP/AltStoreDuo.xcarchive/Products/Applications" -maxdepth 1 -name '*.app' -print -quit)"
+          test -n "$APP"
+          rm -rf "$RUNNER_TEMP/Payload" artifacts
+          mkdir -p "$RUNNER_TEMP/Payload" artifacts
+          cp -R "$APP" "$RUNNER_TEMP/Payload/"
+          (
+            cd "$RUNNER_TEMP"
+            /usr/bin/zip -qry "$GITHUB_WORKSPACE/artifacts/AltStore-Duo-unsigned.ipa" Payload
+          )
+
+      - name: Verify package
+        run: |
+          set -o pipefail
+          rm -rf verify
+          mkdir verify
+          unzip -q artifacts/AltStore-Duo-unsigned.ipa -d verify
+          APP="$(find verify/Payload -maxdepth 1 -name '*.app' -print -quit)"
+          test -n "$APP"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$APP/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist"
+          BIN="$APP/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Info.plist")"
+          strings "$BIN" | grep -q 'UIHingeInteraction'
+          unzip -t artifacts/AltStore-Duo-unsigned.ipa
+          shasum -a 256 artifacts/AltStore-Duo-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AltStore-Duo-unsigned
+          path: artifacts/AltStore-Duo-unsigned.ipa
+          if-no-files-found: error

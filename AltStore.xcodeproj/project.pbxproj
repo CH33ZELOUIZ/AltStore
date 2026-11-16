@@ -250,6 +250,7 @@
 		BFCB9207250AB2120057B44E /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFCB9206250AB2120057B44E /* Colors.xcassets */; };
 		BFCCB51A245E3401001853EA /* VerifyAppOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCCB519245E3401001853EA /* VerifyAppOperation.swift */; };
 		BFD2476E2284B9A500981D42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD2476D2284B9A500981D42 /* AppDelegate.swift */; };
+		D001A17D001A17D001A17002 /* DuoLayoutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D001A17D001A17D001A17001 /* DuoLayoutCoordinator.swift */; };
 		BFD247752284B9A500981D42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFD247732284B9A500981D42 /* Main.storyboard */; };
 		BFD247772284B9A700981D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFD247762284B9A700981D42 /* Assets.xcassets */; };
 		BFD2477A2284B9A700981D42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFD247782284B9A700981D42 /* LaunchScreen.storyboard */; };
@@ -975,6 +976,7 @@
 		BFCCB519245E3401001853EA /* VerifyAppOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyAppOperation.swift; sourceTree = "<group>"; };
 		BFD2476A2284B9A500981D42 /* AltStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AltStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD2476D2284B9A500981D42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D001A17D001A17D001A17001 /* DuoLayoutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoLayoutCoordinator.swift; sourceTree = "<group>"; };
 		BFD247742284B9A500981D42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFD247762284B9A700981D42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFD247792284B9A700981D42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -2028,6 +2030,7 @@
 		BFD2476C2284B9A500981D42 /* AltStore */ = {
 			isa = PBXGroup;
 			children = (
+				D001A17D001A17D001A17001 /* DuoLayoutCoordinator.swift */,
 				BF219A7E22CAC431007676A6 /* AltStore.entitlements */,
 				BFD2476D2284B9A500981D42 /* AppDelegate.swift */,
 				BF4B78FD24B3D1DB008AB4AC /* SceneDelegate.swift */,
@@ -3503,6 +3506,7 @@
 				D5CF568C2A0D8EEC006D93E2 /* VerificationError.swift in Sources */,
 				D5B6F6AB2AD76541007EED5A /* PreviewAppScreenshotsViewController.swift in Sources */,
 				BFD2476E2284B9A500981D42 /* AppDelegate.swift in Sources */,
+				D001A17D001A17D001A17002 /* DuoLayoutCoordinator.swift in Sources */,
 				D52C73652B688B2200E8751C /* InstalledApp+LoadIcon.swift in Sources */,
 				BF41B806233423AE00C593A3 /* TabBarController.swift in Sources */,
 				BFE00A202503097F00EB4D0C /* INInteraction+AltStore.swift in Sources */,
@@ -4430,7 +4434,7 @@
 					"$(PROJECT_DIR)/Dependencies/libcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.altstore.AltStore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "AltStore Duo";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -4465,7 +4469,7 @@
 					"$(PROJECT_DIR)/Dependencies/libcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.altstore.AltStore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "AltStore Duo";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
