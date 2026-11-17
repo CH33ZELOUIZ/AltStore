@@ -49,6 +49,11 @@ jobs:
           rm -rf "$RUNNER_TEMP/Payload" artifacts
           mkdir -p "$RUNNER_TEMP/Payload" artifacts
           cp -R "$APP" "$RUNNER_TEMP/Payload/"
+          # Sideload flavor: drop the EU marketplace ExtensionKit extension, which
+          # cannot be signed by AltStore/SideStore with a free Apple ID.
+          rm -rf "$RUNNER_TEMP/Payload/"*.app/Extensions
+          rm -f "$RUNNER_TEMP/Payload/"*.app/AltMarketplace.cer
+          ls "$RUNNER_TEMP/Payload/"*.app
           (
             cd "$RUNNER_TEMP"
             /usr/bin/zip -qry "$GITHUB_WORKSPACE/artifacts/AltStore-Duo-unsigned.ipa" Payload
